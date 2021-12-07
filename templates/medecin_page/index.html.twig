@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MedecinPageController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+<h2>{{error}}</h2>
+    <div id="calendrier"></div>
+    <script>
+        window.onload = () => {
+            let calendarElt = document.querySelector("#calendrier")
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView: 'timeGridWeek',
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                allDaySlot: false,
+                headerToolbar: {
+                    start: 'prev,next today',
+                    end: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events:{{rdv|raw}}
+
+            })
+            calendar.render()
+        }
+    </script>
+    <div id="formPriseRendezVous">
+    <h1>Réserver un rendez-vous</h1>
+        {{form_start(form)}}
+        {{form_row(form.dateDebut)}}
+        {{form_row(form.description)}}
+        <button type="submit" class="btn">Enregistrer</button>
+        {{form_end(form)}}
+    </div>
+</div>
+{% endblock %}
