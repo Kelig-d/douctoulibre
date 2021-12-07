@@ -40,27 +40,29 @@ class MedecinPageController extends AbstractController
         $rendezVous = new RendezVous();
         $form = $this->createForm(PrendreRendezVousType::class, $rendezVous);
         $form->handleRequest($request);
-        //test si un rendez-vous existe déjà au même moment avec ce médecin
-        foreach($lesRendezVous as $leRendezVous){
-            if($leRendezVous->getDateDebut() == $rendezVous->getDateDebut()){
-                $error = "Un rendez-vous à déjà été pris à ce créneau";
-                break;
+        if($form->isSubmitted() && $form->isValid()){
+            //test si un rendez-vous existe déjà au même moment avec ce médecin
+            foreach($lesRendezVous as $leRendezVous){
+                if($leRendezVous->getDateDebut() == $rendezVous->getDateDebut()){
+                    $error = "Un rendez-vous à déjà été pris à ce créneau";
+                    break;
+                }
             }
-        }
-        //test si le rendez-vous voulu rentre dans les horaires du médecin
+            //test si le rendez-vous voulu rentre dans les horaires du médecin
             $leJour = $jourRepository->findOneBy(['jour' => $rendezVous->getDateDebut()->format('l')]);
             $lesHorairesDuMedecin = $horairesRepository->findOneBy(['leMedecin' =>$leMedecin,'leJour' => $leJour]);
             $dateDebut = $rendezVous->getDateDebut()->format('H:i:s');
-                if($dateDebut<$lesHorairesDuMedecin->getHeureMatinDebut()->format('H:i:s') || ($dateDebut>$lesHorairesDuMedecin->getHeureMatinFin()->format('H:i:s') && $dateDebut<$lesHorairesDuMedecin->getHeureApremDebut()->format('H:i:s')) || $dateDebut>$lesHorairesDuMedecin->getHeureApremFin()->format('H:i:s')){
-                    $error="Le médecin ne prends pas de rendez-vous sur ces horaires";
-                }
-        //test si le formulaire est bon et si le rendez-vous a remplit les conditions, envoit dans la bdd
-        if($form->isSubmitted() && $form->isValid() && !$error){
-            $lePatient = $this->security->getUser();
-            $rendezVous->setLeMedecin($leMedecin);
-            $rendezVous->setLePatient($lePatient);
-            $manager->persist($rendezVous);
-            $manager->flush();
+            if($dateDebut<$lesHorairesDuMedecin->getHeureMatinDebut()->format('H:i:s') || ($dateDebut>$lesHorairesDuMedecin->getHeureMatinFin()->format('H:i:s') && $dateDebut<$lesHorairesDuMedecin->getHeureApremDebut()->format('H:i:s')) || $dateDebut>$lesHorairesDuMedecin->getHeureApremFin()->format('H:i:s')){
+                $error="Le médecin ne prends pas de rendez-vous sur ces horaires";
+            }
+            //test si le formulaire est bon et si le rendez-vous a remplit les conditions, envoit dans la bdd
+            if(!$error){
+                $lePatient = $this->security->getUser();
+                $rendezVous->setLeMedecin($leMedecin);
+                $rendezVous->setLePatient($lePatient);
+                $manager->persist($rendezVous);
+                $manager->flush();
+            }
         }
         //rechargement des rendez-vous pour avoir le nouveau dans le calendrier
         $lesRendezVous = $rendezVousRepository->findBy(['leMedecin' => $leMedecin]);
@@ -70,22 +72,20 @@ class MedecinPageController extends AbstractController
             //vérification si le rendez-vous est validé ou non par le médecin
             if($unRendezVous->getDuree()){
                 $duree = $unRendezVous->getDuree();
-                $background = "#00CA2A";
             }
             else{
                 $duree = 60;
-                $background = "#EFA111";
             }
             //création de la date de fin du rendez vous pour l'afficher correctement dans le calendrier, 1h de temps par défaut
             $dateFin = new DateTime($unRendezVous->getDateDebut()->format(('Y-m-d H:i:s')));
             $dateFin->add(new DateInterval('PT'. $duree. 'M'));
-            $titre = "Rdv de ".$unRendezVous->getLePatient()->getPrenom()." ".$unRendezVous->getLePatient()->getNom();
+            $titre = "Rdv déjà réservé";
+            $background = "#EFA111";
             $rdv[] = [
                 'id' => $unRendezVous->getId(),
                 'start' => $unRendezVous->getDateDebut()->format('Y-m-d H:i:s'),
                 'end' => $dateFin->format('Y-m-d H:i:s'),
                 'title' => $titre,
-                'description' => $unRendezVous->getDescription(),
                 'backgroundColor' => $background
             ];
         }

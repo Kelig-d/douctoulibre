@@ -3,51 +3,42 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
 
-<div class="example-wrapper">
-{% if app.user.nom is defined %}
-    {% set nom = app.user.nom %}
-    <h1>Bonjour {{ nom }}! ✅</h1>
-{% else %}
-    <h1>Bonjour ! ✅</h1>
-{% endif %}
-    <ul>S'inscrire
-        <li>    
-            <a href="{{path('register',{"type":"Patient"})}}">Patient</a>
-        </li>
-        <li>
-            <a href="{{path('register',{"type":"Medecin"})}}">Medecin</a>
-        </li>
-    </ul> 
-    {% if app.user is null %}
-        <a href="{{path('login')}}">Se connecter</a>
-    {% else %}
-        <a href="/logout">Se deconnecter</a>
-    {% endif %}
-            {{ render(controller(
-        'App\\Controller\\SearchController::searchBar'
-            )) }}
-    {% if app.user %}
-    {% if app.user.roles[0] == "ROLE_PATIENT" %}
-        <h1>Vos Rendez-vous :</h1>
-        {% for rendezvous in lesRendezVous %}
-        <h2>Rendez-vous le {{rendezvous.dateDebut|date('d F')}} à {{rendezvous.dateDebut|date('H:i')}} avec le médecin {{rendezvous.leMedecin.prenom}} {{rendezvous.leMedecin.nom}} {{(rendezvous.duree is null) ? 'non validé' : 'validé'}} par le médecin</h2>
-        {% endfor %}
-    {% endif %}
-    {% if app.user.roles[0] == "ROLE_MEDECIN" %}
+    <div class="example-wrapper">
+        {% if app.user is null %}
+            <h1>Bonjour !</h1>
+            <ul>S'inscrire
+                <li>    
+                    <a href="{{path('register',{"type":"Patient"})}}">Patient</a>
+                </li>
+                <li>
+                    <a href="{{path('register',{"type":"Medecin"})}}">Medecin</a>
+                </li>
+            </ul> 
+            <a href="{{path('login')}}">Se connecter</a>
+        {% else %}
+            <h1>Bonjour {{app.user.prenom}} {{ app.user.nom }}! ✅</h1>
+            <a href="/logout">Se deconnecter</a>
+            {% if app.user.roles[0] == "ROLE_PATIENT" %}
+                {{ render(controller(
+                    'App\\Controller\\SearchController::searchBar'
+                )) }}
+                <h1>Vos rendez-vous</h1>
+                {{ render(controller(
+                        'App\\Controller\\CalendrierController::index',{'patientId':app.user.id}
+                )) }}
 
-        <h1>Les rendez-vous qui ont été demandés: </h1>
-        {% for rendezvous in lesRendezVousABloquer %}
-            <h2>Rendez-vous le {{rendezvous.dateDebut|date('d F')}} à {{rendezvous.dateDebut|date('H:i')}} avec le patient {{rendezvous.lePatient.prenom}} {{rendezvous.lePatient.nom}} :</h2>
-            <p>Description : {{rendezvous.description}} </p>
-            <a href="{{path('bloquer_rendez_vous',{"rendezVousId":rendezvous.id})}}">Bloquer le rendezVous</a>
-            
-        {% endfor %}
-    {% endif %}
-    {% endif %}
+            {% endif %}
+            {% if app.user.roles[0] == "ROLE_MEDECIN" %}
+                <h1>Vos rendez-vous</h1>
+                {{ render(controller(
+                        'App\\Controller\\CalendrierController::index',{'medecinId':app.user.id}
+                )) }}
+            {% endif %}
+        {% endif %}
 </div>
 {% endblock %}

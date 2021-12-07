@@ -26,22 +26,20 @@ class HomeController extends AbstractController
     public function index(RendezVousRepository $rendezVousRepository): Response
     {
         if($this->security->getUser()){
-        if($this->security->getUser()->getRoles()[0] =="ROLE_PATIENT"){
-            $lesRendezVous = $rendezVousRepository->findBy(['lePatient' => $this->security->getUser()]);
-            return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'lesRendezVous' => $lesRendezVous
-        ]);
-        }
-        if($this->security->getUser()->getRoles()[0] =="ROLE_MEDECIN"){
-            $lesRendezVousABloquer = $rendezVousRepository->findBy(['leMedecin' => $this->security->getUser(), 'duree' =>null]);
-            return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'lesRendezVousABloquer' => $lesRendezVousABloquer
-        ]);
-        }
-    }
+            if($this->security->getUser()->getRoles()[0] =="ROLE_PATIENT"){
+                $lesRendezVous = $rendezVousRepository->findBy(['lePatient' => $this->security->getUser()]);
                 return $this->render('home/index.html.twig', [
+                    'controller_name' => 'HomeController',
+                    'lesRendezVous' => $lesRendezVous
+            ]);
+            }
+            if($this->security->getUser()->getRoles()[0] =="ROLE_MEDECIN"){
+                return $this->render('home/index.html.twig', [
+                    'controller_name' => 'HomeController',
+            ]);
+            }
+        }
+        return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }

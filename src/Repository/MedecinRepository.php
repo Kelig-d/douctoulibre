@@ -31,6 +31,7 @@ class MedecinRepository extends ServiceEntityRepository
             ->orWhere('m.prenom like :search')
             ->orWhere('m.nom like :search')
             ->orWhere('m.adresse like :search')
+            ->orWhere('m.ville like :search')
             ->setParameter('search',$search)
             ->getQuery()
             ->getResult();
