@@ -39,7 +39,13 @@ class CalendrierController extends AbstractController
             //création de la date de fin du rendez vous pour l'afficher correctement dans le calendrier, 1h de temps par défaut
             $dateFin = new DateTime($unRendezVous->getDateDebut()->format(('Y-m-d H:i:s')));
             $dateFin->add(new DateInterval('PT'. $duree. 'M'));
-            $titre = "Rdv de ".$unRendezVous->getLePatient()->getPrenom()." ".$unRendezVous->getLePatient()->getNom();
+            if($patientId){
+                $sujet = $unRendezVous->getLeMedecin();
+            }
+            else{
+                $sujet = $unRendezVous->getLePatient();
+            }
+            $titre = "Rdv avec ".$sujet->getPrenom()." ".$sujet->getNom();
             $rdv[] = [
                 'id' => $unRendezVous->getId(),
                 'start' => $unRendezVous->getDateDebut()->format('Y-m-d H:i:s'),
