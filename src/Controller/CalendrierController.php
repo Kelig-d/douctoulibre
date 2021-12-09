@@ -52,7 +52,8 @@ class CalendrierController extends AbstractController
                 'end' => $dateFin->format('Y-m-d H:i:s'),
                 'title' => $titre,
                 'description' => $unRendezVous->getDescription(),
-                'backgroundColor' => $background
+                'backgroundColor' => $background,
+                'telephone' => $leUser->getTelephone()
             ];
         }
         //encodage en json des rendez-vous

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'home/index.html.twig' %}
 
 {% block title %}Hello CalendrierController!{% endblock %}
 
@@ -24,26 +24,46 @@
                     events:{{rdv|raw}},
                     eventClick:  function(event, jsEvent, view) {
                         $('#modalTitle').html(event.event.title);
-                        $('#modalBody').html(event.event.extendedProps.description);
+                        $('#description').html(event.event.extendedProps.description);
+                        $('#id').html(event.event.id);
+                        $('#telephone').html(event.event.extendedProps.telephone);
                         $('#eventUrl').attr('href',event.event.url);
                         $('#calendarModal').modal();
+                        console.log(event.event);
                     }
 
                 })
                 calendar.render()
             }
         </script>
+        
         <div id="calendarModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 id="modalTitle" class="modal-title"></h4>
                     </div>
-                    <div id="modalBody" class="modal-body"> </div>
+                    <div id="modalBody" class="modal-body"> 
+                        <span id="description"></span>
+                        <br />
+                        Identifiant :
+                        <span id="id"></span>
+                        <br />
+                        Informations de contact :
+                        <br />
+                        Téléphone :
+                        <span id="telephone"></span>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
+        {% if app.user.roles[0] == "ROLE_MEDECIN" %}
+            <p>Veuillez entrer l'identifiant du rendez-vous pour le valider :</p>
+            {{ render(controller(
+                'App\\Controller\\BloquerRendezVousController::index'
+            )) }}
+        {% endif %}
 {% endblock %}

@@ -10,7 +10,12 @@
 
 <div class="example-wrapper">
     {{form_start(form)}}
-    {{form_row(form.duree)}}
+    Identifiant : 
+    {{form_widget(form.id)}}
+    <br />
+    Durée :
+    {{form_widget(form.duree)}}
+    <br  />
     <button type="submit" class="btn">Enregistrer</button>
     {{form_end(form)}}
 </div>

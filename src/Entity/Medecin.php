@@ -48,6 +48,7 @@ class Medecin extends User
 
     /**
      * @ORM\OneToMany(targetEntity=Horaires::class, mappedBy="leMedecin")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $lesHoraires;
 
