@@ -11,6 +11,7 @@ class HorairesMedecinType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        //Non utilisé pour l'instant
         $builder
             ->add('heureMatinDebut')
             ->add('heureMatinFin')

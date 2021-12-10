@@ -21,6 +21,8 @@ class MedecinRepository extends ServiceEntityRepository
 
     /**
      * @return Medecin[]
+     * Fonction permettant de rechercher dans la base un médecin selon ce qui à été recherché
+     * Ex : entrée "Henri" Résultat : Tous les médecins présentant henri dans leur nom, prénom, adresse, ville et spécialité
      */
     public function findBySearch($searchField){
         $search = "%".$searchField."%";

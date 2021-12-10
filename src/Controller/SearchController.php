@@ -18,9 +18,13 @@ class SearchController extends AbstractController
             'controller_name' => 'SearchController',
         ]);
     }
+    /**
+     * Fonction d'affichage d'un champ de recherche
+     */
     #[Route('/search', name: 'search')]
     public function searchBar()
     {
+        //Création du formulaire qui redirigera vers une seconde fonction
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('handleSearch'))
             ->add('query', TextType::class, [
@@ -43,6 +47,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/handleSearch", name="handleSearch")
      * @param Request $request
+     * Fonction permettant d'effectuer la recherche grâce à une requête personnalisée dans le repository
      */
     public function handleSearch(Request $request, MedecinRepository $medecinRepository)
     {

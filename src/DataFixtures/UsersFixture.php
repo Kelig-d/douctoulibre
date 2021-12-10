@@ -14,6 +14,9 @@ class UsersFixture extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        /**
+         * Boucle pour créer les jours (en anglais)
+         */
         $timestamp = strtotime('next Monday');
         $lesJours = array();
         for ($i = 0; $i < 7; $i++) {
@@ -24,6 +27,9 @@ class UsersFixture extends Fixture
             $lesJours[] = $jour;
             $timestamp = strtotime('+1 day', $timestamp);
         }
+        /**
+         * Création des spécialités via un tableau de nom de spécialités
+         */
         $lesSpecialites = array();
         $lesSpecialitesNom = ["Addictologie",
         "Algologie",
@@ -66,7 +72,13 @@ class UsersFixture extends Fixture
             $manager->persist($newSecialite);
             $manager->flush();
         }
+        //Tableau de faker fait main
         $random_names = ["Henri","Marc","Gill","Robert","Nicolas","Denis","Sebastien","Louis"];
+        /**
+         * Création de 20 médecins
+         * Utilisation du tableau Faker fait main pour les noms, prénoms, adresse
+         * Randomisation des codes postaux, du sexe, de la rue, des téléphones, des noms et prénoms
+         */
         for($i=0;$i<20;$i++){
             $medecin = new Medecin();
             $medecin->setNom($random_names[rand(0,count($random_names)-1)]);
@@ -88,6 +100,10 @@ class UsersFixture extends Fixture
 
             $medecin->setTelephone($telephone);
             $manager->persist($medecin);
+            /**
+             * Création d'horaires pour chaque jour
+             * Affectation d'un médecin à chaque horaire
+             */
             for($j=0;$j<7;$j++){
                 $horaire = new Horaires();
                 $horaire->setLeJour($lesJours[$j]);
@@ -101,6 +117,9 @@ class UsersFixture extends Fixture
             }
             $manager->flush();
         }
+        /**
+         * Création de 20 patients sur la même base que les médecins
+         */
         for($i=0;$i<20;$i++){
             $patient = new Patient();
             $patient->setAdresse($i." rue ".$random_names[rand(0,count($random_names)-1)]);

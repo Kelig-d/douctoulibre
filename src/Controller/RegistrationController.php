@@ -15,9 +15,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationController extends AbstractController
 {
+    /**
+     * Fonction générée de symfony pour créer un utilisateur
+     */
     #[Route('/register/{type}', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, string $type, SpecialiteRepository $specialiteRepository): Response
     {
+        /**
+         * On va tester si le formulaire d'inscription renvoies le type patient ou le type docteur pour créer la bonne classe héritée
+         */
         if($type == "Patient"){
             $user = new Patient();
             $user->setRoles(['ROLE_PATIENT']);

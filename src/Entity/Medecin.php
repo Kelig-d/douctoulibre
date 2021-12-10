@@ -36,11 +36,6 @@ class Medecin extends User
     private $rendezVous;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MoyenPaiement::class, inversedBy="lesMedecins")
-     */
-    private $lesMoyensPaiement;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="lesMedecins")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -55,7 +50,6 @@ class Medecin extends User
     public function __construct()
     {
         $this->rendezVous = new ArrayCollection();
-        $this->lesMoyensPaiement = new ArrayCollection();
         $this->lesHoraires = new ArrayCollection();
     }
 
@@ -118,29 +112,6 @@ class Medecin extends User
         return $this;
     }
 
-    /**
-     * @return Collection|MoyenPaiement[]
-     */
-    public function getLesMoyensPaiement(): Collection
-    {
-        return $this->lesMoyensPaiement;
-    }
-
-    public function addLesMoyensPaiement(MoyenPaiement $lesMoyensPaiement): self
-    {
-        if (!$this->lesMoyensPaiement->contains($lesMoyensPaiement)) {
-            $this->lesMoyensPaiement[] = $lesMoyensPaiement;
-        }
-
-        return $this;
-    }
-
-    public function removeLesMoyensPaiement(MoyenPaiement $lesMoyensPaiement): self
-    {
-        $this->lesMoyensPaiement->removeElement($lesMoyensPaiement);
-
-        return $this;
-    }
 
     public function getLaSpecialite(): ?Specialite
     {
