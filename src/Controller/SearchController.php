@@ -30,8 +30,8 @@ class SearchController extends AbstractController
             ->add('query', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Entrez un mot-clé'
+                    'class' => 'form-control me-2',
+                    'placeholder' => 'Entrez ce que vous voulez'
                 ]
             ])
             ->add('recherche', SubmitType::class, [

@@ -1,1 +1,6 @@
-{{ form(form) }}
+{{form_start(form)}}
+    <div class="d-flex">
+        <span class="me-2" aria-label="Search">{{form_widget(form.query)}}</span>
+        <span>{{form_widget(form.recherche)}}</span>
+    </div>
+{{form_end(form)}}

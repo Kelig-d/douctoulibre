@@ -7,22 +7,9 @@
     <div class="example-wrapper">
         {% if app.user is null %}
             <h1>Bonjour !</h1>
-            <ul>S'inscrire
-                <li>    
-                    <a href="{{path('register',{"type":"Patient"})}}">Patient</a>
-                </li>
-                <li>
-                    <a href="{{path('register',{"type":"Medecin"})}}">Medecin</a>
-                </li>
-            </ul> 
-            <a href="{{path('login')}}">Se connecter</a>
         {% else %}
             <h1>Bonjour {{app.user.prenom}} {{ app.user.nom }}! ✅</h1>
-            <a href="/logout">Se deconnecter</a>
             {% if app.user.roles[0] == "ROLE_PATIENT" %}
-                {{ render(controller(
-                    'App\\Controller\\SearchController::searchBar'
-                )) }}
                 <h1>Vos rendez-vous</h1>
                 {{ render(controller(
                         'App\\Controller\\CalendrierController::index',{'patientId':app.user.id}
