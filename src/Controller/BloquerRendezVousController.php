@@ -12,14 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BloquerRendezVousController extends AbstractController
 {
-    /**
-     * @var Security
-     */
-    private $security;
-        public function __construct(Security $security)
-    {
-       $this->security = $security;
-    }
     #[Route('/bloquer/rendez/vous/', name: 'bloquer_rendez_vous')]
     public function index(): Response
     {

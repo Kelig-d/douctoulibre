@@ -16,6 +16,9 @@ class CalendrierController extends AbstractController
     #[Route('/calendrier', name: 'calendrier')]
     public function index(?int $medecinId,?int $patientId,PatientRepository $patientRepository,MedecinRepository $medecinRepository,RendezVousRepository $rendezVousRepository): Response
     {
+        /**
+         * On va regarder quel type d'utilisateur est connecté et récupérer son calendrier de rendez-vous
+         */
         if($medecinId){
             $leUser = $medecinRepository->findOneBy(['id' => $medecinId]);
             $lesRendezVous = $rendezVousRepository->findBy(['leMedecin' => $leUser]);
@@ -27,7 +30,9 @@ class CalendrierController extends AbstractController
         //création d'un tableau des rendez-vous pour le transformer en json pour le full calendar
         $rdv = array();
         foreach($lesRendezVous as $unRendezVous){
-            //vérification si le rendez-vous est validé ou non par le médecin
+            /**
+             * On teste si le rendez-vous est bloqué grâce à la durée, et on applique 60 minutes par défaut si non
+             */
             if($unRendezVous->getDuree()){
                 $duree = $unRendezVous->getDuree();
                 $background = "#00CA2A";
@@ -36,7 +41,7 @@ class CalendrierController extends AbstractController
                 $duree = 60;
                 $background = "#EFA111";
             }
-            //création de la date de fin du rendez vous pour l'afficher correctement dans le calendrier, 1h de temps par défaut
+            //création de la date de fin du rendez vous pour l'afficher correctement dans le calendrier
             $dateFin = new DateTime($unRendezVous->getDateDebut()->format(('Y-m-d H:i:s')));
             $dateFin->add(new DateInterval('PT'. $duree. 'M'));
             if($patientId){
@@ -45,7 +50,9 @@ class CalendrierController extends AbstractController
             else{
                 $sujet = $unRendezVous->getLePatient();
             }
+            //Application du sujet pour que le titre soit logique
             $titre = "Rdv avec ".$sujet->getPrenom()." ".$sujet->getNom();
+            //Affectation au tableau pour envoyer les données au javascript en json après
             $rdv[] = [
                 'id' => $unRendezVous->getId(),
                 'start' => $unRendezVous->getDateDebut()->format('Y-m-d H:i:s'),

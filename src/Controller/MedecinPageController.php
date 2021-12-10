@@ -28,42 +28,12 @@ class MedecinPageController extends AbstractController
        $this->security = $security;
     }
 
-    #[Route('/medecin/page/{medecin}', name: 'medecin_page')]
-    public function index(int $medecin, MedecinRepository $medecinRepository, RendezVousRepository $rendezVousRepository,HorairesRepository $horairesRepository,JourRepository $jourRepository, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/medecin/page/{medecinId}', name: 'medecin_page')]
+    public function index(int $medecinId, MedecinRepository $medecinRepository, RendezVousRepository $rendezVousRepository): Response
     {
-        //création d'une variable erreur qui va afficher le problème à l'utilisateur s'il y en a un
-        $error ="";
         //Récupération du médecin et de ses rendez vous
-        $leMedecin = $medecinRepository->findOneBy(['id' => $medecin]);
+        $leMedecin = $medecinRepository->findOneBy(['id' => $medecinId]);
         $lesRendezVous = $rendezVousRepository->findBy(['leMedecin' => $leMedecin]);
-        //formulaire pour ajouter un rendez-vous
-        $rendezVous = new RendezVous();
-        $form = $this->createForm(PrendreRendezVousType::class, $rendezVous);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            //test si un rendez-vous existe déjà au même moment avec ce médecin
-            foreach($lesRendezVous as $leRendezVous){
-                if($leRendezVous->getDateDebut() == $rendezVous->getDateDebut()){
-                    $error = "Un rendez-vous à déjà été pris à ce créneau";
-                    break;
-                }
-            }
-            //test si le rendez-vous voulu rentre dans les horaires du médecin
-            $leJour = $jourRepository->findOneBy(['jour' => $rendezVous->getDateDebut()->format('l')]);
-            $lesHorairesDuMedecin = $horairesRepository->findOneBy(['leMedecin' =>$leMedecin,'leJour' => $leJour]);
-            $dateDebut = $rendezVous->getDateDebut()->format('H:i:s');
-            if($dateDebut<$lesHorairesDuMedecin->getHeureMatinDebut()->format('H:i:s') || ($dateDebut>$lesHorairesDuMedecin->getHeureMatinFin()->format('H:i:s') && $dateDebut<$lesHorairesDuMedecin->getHeureApremDebut()->format('H:i:s')) || $dateDebut>$lesHorairesDuMedecin->getHeureApremFin()->format('H:i:s')){
-                $error="Le médecin ne prends pas de rendez-vous sur ces horaires";
-            }
-            //test si le formulaire est bon et si le rendez-vous a remplit les conditions, envoit dans la bdd
-            if(!$error){
-                $lePatient = $this->security->getUser();
-                $rendezVous->setLeMedecin($leMedecin);
-                $rendezVous->setLePatient($lePatient);
-                $manager->persist($rendezVous);
-                $manager->flush();
-            }
-        }
         //rechargement des rendez-vous pour avoir le nouveau dans le calendrier
         $lesRendezVous = $rendezVousRepository->findBy(['leMedecin' => $leMedecin]);
         //création d'un tableau des rendez-vous pour le transformer en json pour le full calendar
@@ -94,8 +64,6 @@ class MedecinPageController extends AbstractController
         return $this->render('medecin_page/index.html.twig', [
             'medecin' => $leMedecin,
             'rdv' => $rdvJson,
-            'form' => $form->createView(),
-            'error' => $error
         ]);
     }
 }

@@ -14,8 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-        /**
+    /**
      * @var Security
+     * On crée une variable security qui va contenir les informations de l'utilisateur connecté, les tokens,...
      */
     private $security;
         public function __construct(Security $security)
@@ -25,22 +26,21 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(RendezVousRepository $rendezVousRepository): Response
     {
+        //On teste si l'utilisateur est connecté
         if($this->security->getUser()){
+            //On regarde quel type d'ulisateur c'est et on envoies les infos selon le résultat au twig
             if($this->security->getUser()->getRoles()[0] =="ROLE_PATIENT"){
                 $lesRendezVous = $rendezVousRepository->findBy(['lePatient' => $this->security->getUser()]);
                 return $this->render('home/index.html.twig', [
-                    'controller_name' => 'HomeController',
                     'lesRendezVous' => $lesRendezVous
             ]);
             }
             if($this->security->getUser()->getRoles()[0] =="ROLE_MEDECIN"){
                 return $this->render('home/index.html.twig', [
-                    'controller_name' => 'HomeController',
             ]);
             }
         }
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
         ]);
     }
 }

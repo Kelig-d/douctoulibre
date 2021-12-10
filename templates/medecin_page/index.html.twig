@@ -9,7 +9,6 @@
 </style>
 
 <div class="example-wrapper">
-<h2>{{error}}</h2>
     <div id="calendrier"></div>
     <script>
         window.onload = () => {
@@ -29,13 +28,8 @@
             calendar.render()
         }
     </script>
-    <div id="formPriseRendezVous">
-    <h1>Réserver un rendez-vous</h1>
-        {{form_start(form)}}
-        {{form_row(form.dateDebut)}}
-        {{form_row(form.description)}}
-        <button type="submit" class="btn">Enregistrer</button>
-        {{form_end(form)}}
-    </div>
+    {{ render(controller(
+        'App\\Controller\\PrendreRendezVousController::index',{'medecinId':medecin.id}
+    )) }}
 </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'medecin_page/index.html.twig' %}
+
+{% block title %}Hello PrendreRendezVousController!{% endblock %}
+
+{% block body %}
+<div id="formPriseRendezVous">
+    <h1>Réserver un rendez-vous</h1>
+    <h2>{{error}}</h2>
+        {{form_start(form)}}
+        {{form_row(form.dateDebut)}}
+        {{form_row(form.description)}}
+        <button type="submit" class="btn">Enregistrer</button>
+        {{form_end(form)}}
+</div>
+{% endblock %}
