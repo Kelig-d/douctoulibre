@@ -17,8 +17,15 @@
                     timeZone: 'Europe/Paris',
                     allDaySlot: false,
                     headerToolbar: {
-                        start: 'prev,next today',
-                        end: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        start: 'prev next today',
+                        end: 'dayGridMonth timeGridWeek timeGridDay',
+                    },
+                    //Changement des textes des boutons en français
+                    buttonText: {
+                        dayGridMonth:'Mois',
+                        timeGridWeek:'Semaine',
+                        timeGridDay:'Jour',
+                        today:'Aujourd\'hui',
                     },
                     //Rendez-vous récupérés du controller en json
                     events:{{rdv|raw}},

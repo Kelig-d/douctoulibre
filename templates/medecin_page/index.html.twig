@@ -9,6 +9,7 @@
 </style>
 
 <div class="example-wrapper">
+    <h2 class="text-center">Page de {{(medecin.sexe == 1) ? 'M. ' :'Mme. ' }}{{medecin.nom}} {{medecin.prenom}}</h2>
     <div id="calendrier"></div>
     <script>
         window.onload = () => {

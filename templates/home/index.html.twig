@@ -6,9 +6,9 @@
 
     <div class="example-wrapper">
         {% if app.user is null %}
-            <h1>Bonjour !</h1>
+            <h1 class="text-center">Bonjour !</h1>
         {% else %}
-            <h1>Bonjour {{app.user.prenom}} {{ app.user.nom }}! ✅</h1>
+            <h1 class="text-center">Bonjour {{app.user.prenom}} {{ app.user.nom }} !</h1>
             {% if app.user.roles[0] == "ROLE_PATIENT" %}
                 <h1>Vos rendez-vous</h1>
                 {{ render(controller(
