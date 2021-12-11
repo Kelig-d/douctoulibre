@@ -1,33 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="section shadow mb-5 bg-body rounded d-flex aligns-items-center justify-content-center">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.nom) }}
-        {% if type=="Patient" %}
-            {{ form_row(registrationForm.nom_naissance) }}
-        {% endif %}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.adresse) }}
-        {{ form_row(registrationForm.cp) }}
-        {{ form_row(registrationForm.ville) }}
-        {{ form_row(registrationForm.sexe) }}
-        {% if type == "Patient" %}
-            {{ form_row(registrationForm.date_naissance) }}
-        {% else %}
-            {{form_row(registrationForm.description)}}
-            {{ form_row(registrationForm.carte_vitale) }}
-            {{ form_row(registrationForm.laSpecialite) }}
-        {% endif %}
-        {{ form_row(registrationForm.agreeTerms) }}
+	<div class="col">
+		<h1>Inscription</h1>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+		<div class="form-body">
+			<div class="row">
+				<div class="form-holder">
+					<div class="form-content">
+						<div class="form-items">
+							<form class="requires-validation" novalidate>
+								{{ form_start(registrationForm) }}
+								<div class="col-md-12">
+									{{ form_row(registrationForm.email, {
+                                            label: 'Email :'
+                                        }) }}
+
+								</div>
+								<div class="col-md-12">
+									{{ form_row(registrationForm.plainPassword, {
+                                            label: 'Mot de passe :'
+                                        }) }}</div>
+								<div class="col-md-12">
+									{{ form_row(registrationForm.nom,{
+                                            label:'Nom :'
+                                        }) }}
+								</div>
+								{% if type=="Patient" %}
+									{{ form_row(registrationForm.nom_naissance,{
+                                            label: 'Nom de naissance :'
+                                        }) }}
+								{% endif %}
+								{{ form_row(registrationForm.prenom,{
+                                        label:'Prénom :'
+                                    }) }}
+								{{ form_row(registrationForm.sexe,{
+                                        label:'Sexe :'
+                                    }) }}
+
+								{{ form_row(registrationForm.adresse,{
+                                        label:'Adresse :'
+                                    }) }}
+								{{ form_row(registrationForm.cp,{
+                                        label:'Code postal :'
+                                    }) }}
+								{{ form_row(registrationForm.ville,{
+                                        label: 'Ville :'
+                                    }) }}
+								{{ form_row(registrationForm.telephone,{
+                                        label: 'Téléphone :'
+                                    })}}
+
+								{% if type == "Patient" %}
+									{{ form_row(registrationForm.date_naissance,{
+                                            label: 'Date de naissance :'
+                                        }) }}
+								{% else %}
+									{{form_row(registrationForm.description,{
+                                            label:'Description :'
+                                        })}}
+									{{ form_row(registrationForm.carte_vitale,{
+                                            label: 'Carte vitale :'
+                                        }) }}
+									{{ form_row(registrationForm.laSpecialite,{
+                                            label: 'La spécialité :'
+                                        }) }}
+
+								{% endif %}
+								{{ form_row(registrationForm.agreeTerms,{
+                                        label :'J\'accepte les termes : '
+                                    }) }}
+
+									<button type="submit" class="btn btn-primary">Register</button>
+									{{ form_end(registrationForm) }}
+
+
+									<div class="col-md-12"></div>
+
+
+									<div class="col-md-12"></div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
 {% endblock %}

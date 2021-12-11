@@ -66,7 +66,6 @@ class CalendrierController extends AbstractController
         //encodage en json des rendez-vous
         $rdvJson = json_encode($rdv);
         return $this->render('calendrier/index.html.twig', [
-            'controller_name' => 'CalendrierController',
             'rdv'=>$rdvJson
         ]);
     }

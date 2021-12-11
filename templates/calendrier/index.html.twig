@@ -35,8 +35,7 @@
                         $('#description').html(event.event.extendedProps.description);
                         $('#id').html(event.event.id);
                         $('#telephone').html(event.event.extendedProps.telephone);
-                        $('#eventUrl').attr('href',event.event.url);
-                        $('#calendarModal').modal();
+                        myModal.show();
                     }
 
                 })
@@ -44,6 +43,7 @@
                 calendar.render()
             }
         </script>
+
         {# Modal bootstrap pour avoir plus d'informations sur le rendez-vous #}
         <div id="calendarModal" class="modal fade">
             <div class="modal-dialog">
@@ -59,11 +59,10 @@
                         <br />
                         Informations de contact :
                         <br />
-                        Téléphone :
+                        -Téléphone :
                         <span id="telephone"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

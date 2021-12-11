@@ -21,7 +21,6 @@ class BloquerRendezVousController extends AbstractController
             ->add('id')
             ->getForm();
         return $this->render('bloquer_rendez_vous/index.html.twig', [
-            'controller_name' => 'BloquerRendezVousController',
             'form' =>$form->createView()
         ]);
     }

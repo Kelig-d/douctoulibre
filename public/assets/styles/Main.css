@@ -1,0 +1,63 @@
+.research-button {
+    background-color: #473BF0 !important;
+    border-color: #473BF0 !important;
+}
+
+.navbar {
+    background: linear-gradient(180deg, rgb(0, 0, 0, 0.5) 0%, rgb(0, 0, 0, 0.3) 60%, rgb(0, 0, 0, 0) 100%) !important;
+}
+
+.nav-link,
+.mt-3 {
+    color: #E6E1C5 !important;
+}
+
+
+body {
+    background: rgb(102, 101, 221);
+    background: linear-gradient(180deg, rgba(102, 101, 221, 1) 0%, rgba(251, 202, 239, 1) 100%);
+    min-height: 100vh;
+    height: 100%;
+}
+
+.section {
+    background-color: #fff;
+    border-radius: 1%;
+    margin: 2rem;
+    padding: 2rem;
+}
+
+.fc-button {
+    background-color: rgb(102, 101, 221) !important;
+    border-color: rgb(102, 101, 221) !important;
+    transition: background-color 1s ease-out 100ms
+}
+
+.fc-button:hover {
+    background-color: #9897FF !important;
+}
+
+.fc-col-header-cell-cushion,
+.fc-daygrid-day-number,
+.mb-0,
+h4,
+h5 {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+.c-details span {
+    color: #000;
+}
+
+.home-card {
+    background: rgb(255, 247, 253);
+    background: linear-gradient(180deg, rgba(255, 247, 253, 1) 0%, rgba(102, 101, 221, 0.2) 100%);
+    border-radius: 2%;
+    padding: 1%;
+    margin: 10% 0;
+}
+
+.submit-connect {
+    margin: 2% 0;
+}
