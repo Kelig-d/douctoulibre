@@ -31,6 +31,9 @@ class MedecinPageController extends AbstractController
     #[Route('/medecin/page/{medecinId}', name: 'medecin_page')]
     public function index(int $medecinId, MedecinRepository $medecinRepository, RendezVousRepository $rendezVousRepository): Response
     {
+        if($this->security->getUser() == null){
+            return $this->redirectToRoute('home');
+        }
         //Récupération du médecin et de ses rendez vous
         $leMedecin = $medecinRepository->findOneBy(['id' => $medecinId]);
         $lesRendezVous = $rendezVousRepository->findBy(['leMedecin' => $leMedecin]);
