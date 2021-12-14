@@ -14,65 +14,65 @@
 				<div class="form-holder">
 					<div class="form-content">
 						<div class="form-items">
-							<form class="requires-validation" novalidate>
-								{{ form_start(registrationForm) }}
-								<div class="col-md-12">
-									{{ form_row(registrationForm.email, {
+
+							{{ form_start(registrationForm) }}
+							<div class="col-md-12">
+								{{ form_row(registrationForm.email, {
                                             label: 'Email :'
                                         }) }}
 
-								</div>
-								<div class="col-md-12">
-									{{ form_row(registrationForm.plainPassword, {
+							</div>
+							<div class="col-md-12">
+								{{ form_row(registrationForm.plainPassword, {
                                             label: 'Mot de passe :'
                                         }) }}</div>
-								<div class="col-md-12">
-									{{ form_row(registrationForm.nom,{
+							<div class="col-md-12">
+								{{ form_row(registrationForm.nom,{
                                             label:'Nom :'
                                         }) }}
-								</div>
-								{% if type=="Patient" %}
-									{{ form_row(registrationForm.nom_naissance,{
+							</div>
+							{% if type=="Patient" %}
+								{{ form_row(registrationForm.nom_naissance,{
                                             label: 'Nom de naissance :'
                                         }) }}
-								{% endif %}
-								{{ form_row(registrationForm.prenom,{
+							{% endif %}
+							{{ form_row(registrationForm.prenom,{
                                         label:'Prénom :'
                                     }) }}
-								{{ form_row(registrationForm.sexe,{
+							{{ form_row(registrationForm.sexe,{
                                         label:'Sexe :'
                                     }) }}
 
-								{{ form_row(registrationForm.adresse,{
+							{{ form_row(registrationForm.adresse,{
                                         label:'Adresse :'
                                     }) }}
-								{{ form_row(registrationForm.cp,{
+							{{ form_row(registrationForm.cp,{
                                         label:'Code postal :'
                                     }) }}
-								{{ form_row(registrationForm.ville,{
+							{{ form_row(registrationForm.ville,{
                                         label: 'Ville :'
                                     }) }}
-								{{ form_row(registrationForm.telephone,{
+							{{ form_row(registrationForm.telephone,{
                                         label: 'Téléphone :'
                                     })}}
 
-								{% if type == "Patient" %}
-									{{ form_row(registrationForm.date_naissance,{
+							{% if type == "Patient" %}
+								{{ form_row(registrationForm.date_naissance,{
                                             label: 'Date de naissance :'
                                         }) }}
-								{% else %}
-									{{form_row(registrationForm.description,{
+							{% else %}
+								{{form_row(registrationForm.description,{
                                             label:'Description :'
                                         })}}
-									{{ form_row(registrationForm.carte_vitale,{
+								{{ form_row(registrationForm.carte_vitale,{
                                             label: 'Carte vitale :'
                                         }) }}
-									{{ form_row(registrationForm.laSpecialite,{
+								{{ form_row(registrationForm.laSpecialite,{
                                             label: 'La spécialité :'
                                         }) }}
 
-								{% endif %}
-								{{ form_row(registrationForm.agreeTerms,{
+							{% endif %}
+							{{ form_row(registrationForm.agreeTerms,{
                                         label :'J\'accepte les termes : '
                                     }) }}
 
@@ -84,8 +84,6 @@
 
 
 									<div class="col-md-12"></div>
-
-								</form>
 							</div>
 						</div>
 					</div>

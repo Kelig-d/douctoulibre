@@ -109,10 +109,28 @@
 
 			{% endif %}
 			{% if app.user.roles[0] == "ROLE_MEDECIN" %}
-				<h1>Vos rendez-vous</h1>
-				{{ render(controller(
-                        'App\\Controller\\CalendrierController::index',{'medecinId':app.user.id}
-                )) }}
+				{% if form is defined %}
+					<h1>Indiquez vos horaires pour
+						{{jour}}
+						(cohez la case si vous ne travaillez pas)</h1>
+					{% if error is defined %}
+						<h2>{{error}}</h2>
+					{% endif %}
+					{{form_start(form)}}
+					{{form_row(form.heureMatinDebut)}}
+					{{form_row(form.heureMatinFin)}}
+					{{form_row(form.heureApremDebut)}}
+					{{form_row(form.heureApremFin)}}
+
+					<button type="submit" class="btn btn-primary">Register</button>
+					{{form_end(form)}}
+
+				{% else %}
+					<h1>Vos rendez-vous</h1>
+					{{ render(controller(
+							'App\\Controller\\CalendrierController::index',{'medecinId':app.user.id}
+					)) }}
+				{% endif %}
 			{% endif %}
 		{% endif %}
 	</div>
